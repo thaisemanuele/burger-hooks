@@ -25,3 +25,22 @@
     outline: none;
     background-color: #ccc;
 }
+
+.Invalid {
+    border: 1px solid red;
+    background-color: #FDA49A;
+}
+
+.InputContainer {
+    position: relative;
+}
+
+.ValidationMessage {
+    color: red;
+    margin: 5px 0;
+    font-size: 12px;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 10px;
+} 
