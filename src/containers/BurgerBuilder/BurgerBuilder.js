@@ -16,7 +16,6 @@ class BurgerBuilder extends Component {
 
     state = {
         purchasing: false,
-        purchasable: false,
         loading: false,
         error: false
     }
@@ -31,7 +30,7 @@ class BurgerBuilder extends Component {
         });*/
     }
 
-    updatePurchaseState = (ingredients) => {
+    isPurchaseable = (ingredients) => {
         const sum = Object.keys(ingredients)
             .map(ingKey => {
                 return ingredients[ingKey];
@@ -39,7 +38,8 @@ class BurgerBuilder extends Component {
             .reduce((sum, el) => {
                 return sum + el;
             },0);
-        this.setState({purchasable: sum > 0})
+
+        return sum > 0;
     }
 
     addIngredientsHandler = (type) => {
@@ -53,7 +53,7 @@ class BurgerBuilder extends Component {
         //const oldPrice = this.state.totalPrice;
         //const newPrice = oldPrice + priceAddition;
         //this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
-        this.updatePurchaseState(updatedIngredients);
+        //this.updatePurchaseState(updatedIngredients);
     }
     
     removeIngredientsHandler = (type) => {
@@ -70,7 +70,7 @@ class BurgerBuilder extends Component {
         //const oldPrice = this.state.totalPrice;
         //const newPrice = oldPrice - priceDeduction;
         //this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
-        this.updatePurchaseState(updatedIngredients);
+        //this.updatePurchaseState(updatedIngredients);
     }
 
     purchaseHandler = () => {
@@ -113,7 +113,7 @@ class BurgerBuilder extends Component {
                         ingredientAdded={this.props.onIngredientAdded} 
                         ingredientRemoved={this.props.onIngredientRemoved}
                         disabled={disabledInfo}
-                        purchasable={this.state.purchasable}
+                        purchasable={this.isPurchaseable(this.props.ings)}
                         ordered={this.purchaseHandler} 
                         price={this.props.price} />
                 </Aux>
