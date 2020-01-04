@@ -20,16 +20,6 @@ class BurgerBuilder extends Component {
         error: false
     }
 
-    componentDidMount() {
-        /*axios.get('ingredients.json')
-        .then(response => {
-            this.setState({ ingredients: response.data});
-        })
-        .catch(error=> {
-            this.setState({error: true});
-        });*/
-    }
-
     isPurchaseable = (ingredients) => {
         const sum = Object.keys(ingredients)
             .map(ingKey => {
@@ -41,38 +31,7 @@ class BurgerBuilder extends Component {
 
         return sum > 0;
     }
-
-    addIngredientsHandler = (type) => {
-        const oldCount = this.state.ingredients[type];
-        const updatedCount = oldCount + 1;
-        const updatedIngredients = {
-            ...this.state.ingredients
-        };
-        updatedIngredients[type] = updatedCount;
-        //const priceAddition = INGREDIENT_PRICES[type];
-        //const oldPrice = this.state.totalPrice;
-        //const newPrice = oldPrice + priceAddition;
-        //this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
-        //this.updatePurchaseState(updatedIngredients);
-    }
     
-    removeIngredientsHandler = (type) => {
-        const oldCount = this.state.ingredients[type];
-        if (oldCount <= 0) {
-            return;
-        }
-        const updatedCount = oldCount - 1;
-        const updatedIngredients = {
-            ...this.state.ingredients
-        };
-        updatedIngredients[type] = updatedCount;
-        //const priceDeduction = INGREDIENT_PRICES[type];
-        //const oldPrice = this.state.totalPrice;
-        //const newPrice = oldPrice - priceDeduction;
-        //this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
-        //this.updatePurchaseState(updatedIngredients);
-    }
-
     purchaseHandler = () => {
         this.setState({purchasing: true});
     }
@@ -83,16 +42,7 @@ class BurgerBuilder extends Component {
     }
     
     purchaseContinueHandler = () => {
-        const queryParams = [];
-        for (let i in this.props.ings) {
-            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.props.ings[i]));
-        }
-        queryParams.push('price=' + this.props.price);
-        const queryString = queryParams.join('&');
-        this.props.history.push({
-            pathname: 'checkout',
-            search: '?' + queryString
-        });   
+        this.props.history.push('/checkout');   
     }
 
     render() {

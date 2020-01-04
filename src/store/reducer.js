@@ -1,5 +1,4 @@
 import * as actionTypes from './actions';
-import { bindActionCreators } from 'redux';
 
 const initialState = {
     ingredients: {
