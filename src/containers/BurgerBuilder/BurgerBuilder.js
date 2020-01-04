@@ -12,17 +12,9 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axios-orders';
 import * as actionTypes from '../../store/actions';
 
-const INGREDIENT_PRICES = {
-    salad: 0.3,
-    cheese: 0.4,
-    meat: 1.3,
-    bacon: 0.7
-}
-
 class BurgerBuilder extends Component {
 
     state = {
-        totalPrice: 4,
         purchasing: false,
         purchasable: false,
         loading: false,
@@ -57,10 +49,10 @@ class BurgerBuilder extends Component {
             ...this.state.ingredients
         };
         updatedIngredients[type] = updatedCount;
-        const priceAddition = INGREDIENT_PRICES[type];
-        const oldPrice = this.state.totalPrice;
-        const newPrice = oldPrice + priceAddition;
-        this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
+        //const priceAddition = INGREDIENT_PRICES[type];
+        //const oldPrice = this.state.totalPrice;
+        //const newPrice = oldPrice + priceAddition;
+        //this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
         this.updatePurchaseState(updatedIngredients);
     }
     
@@ -74,10 +66,10 @@ class BurgerBuilder extends Component {
             ...this.state.ingredients
         };
         updatedIngredients[type] = updatedCount;
-        const priceDeduction = INGREDIENT_PRICES[type];
-        const oldPrice = this.state.totalPrice;
-        const newPrice = oldPrice - priceDeduction;
-        this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
+        //const priceDeduction = INGREDIENT_PRICES[type];
+        //const oldPrice = this.state.totalPrice;
+        //const newPrice = oldPrice - priceDeduction;
+        //this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
         this.updatePurchaseState(updatedIngredients);
     }
 
@@ -95,7 +87,7 @@ class BurgerBuilder extends Component {
         for (let i in this.props.ings) {
             queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.props.ings[i]));
         }
-        queryParams.push('price=' + this.state.totalPrice);
+        queryParams.push('price=' + this.props.price);
         const queryString = queryParams.join('&');
         this.props.history.push({
             pathname: 'checkout',
@@ -123,12 +115,12 @@ class BurgerBuilder extends Component {
                         disabled={disabledInfo}
                         purchasable={this.state.purchasable}
                         ordered={this.purchaseHandler} 
-                        price={this.state.totalPrice} />
+                        price={this.props.price} />
                 </Aux>
             );
             orderSummary = <OrderSummary 
                 ingredients={this.props.ings}
-                price={this.state.totalPrice}
+                price={this.props.price}
                 purchaseCancelled={this.purchaseCancelHandler}
                 purchaseContinued={this.purchaseContinueHandler} />;
         }
@@ -152,7 +144,8 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => {
     return {
-        ings: state.ingredients
+        ings: state.ingredients,
+        price: state.totalPrice
     };
 };
 
