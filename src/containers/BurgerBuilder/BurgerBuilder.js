@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from '../../axios-orders';
 
 import Aux from '../../hoc/Aux/Aux';
 import Burger from '../../components/Burger/Burger';
@@ -9,15 +10,16 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner'
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
-import axios from '../../axios-orders';
 import * as actions from '../../store/actions/index';
 
 class BurgerBuilder extends Component {
 
     state = {
         purchasing: false,
-        loading: false,
-        error: false
+    }
+
+    componentDidMount() {
+        this.props.onInitIngrediens();
     }
 
     isPurchaseable = (ingredients) => {
@@ -54,7 +56,7 @@ class BurgerBuilder extends Component {
         }
         let orderSummary = null;
         
-        let burger = this.state.error ? <p>Ingredients could not be loaded!</p> : <Spinner />
+        let burger = this.props.error ? <p>Ingredients could not be loaded!</p> : <Spinner />
         if (this.props.ings) {
             burger = (
                 <Aux>
@@ -75,10 +77,6 @@ class BurgerBuilder extends Component {
                 purchaseContinued={this.purchaseContinueHandler} />;
         }
         
-        if(this.state.loading) {
-            orderSummary = <Spinner/>
-        }   
-            
         return (
             <Aux>
                 <Modal 
@@ -95,7 +93,8 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => {
     return {
         ings: state.ingredients,
-        price: state.totalPrice
+        price: state.totalPrice,
+        error: state.error
     };
 };
 
@@ -103,6 +102,7 @@ const mapDispatchToProps = dispacth => {
     return {
         onIngredientAdded: (ingName) => dispacth(actions.addIngredient(ingName)),
         onIngredientRemoved: (ingName) => dispacth(actions.removeIngredient(ingName)),
+        onInitIngrediens: () => dispacth(actions.initIngredients())
     };
 };
 
