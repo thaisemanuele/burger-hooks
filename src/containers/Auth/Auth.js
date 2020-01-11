@@ -15,7 +15,7 @@ class Auth extends Component {
                 value: '',
                 validation: {
                     required: true,
-                    email: true
+                    isEmail: true
                 },
                 valid: false,
                 errorMessage: "Please enter a valid e-mail address",
@@ -40,27 +40,35 @@ class Auth extends Component {
     };
 
     checkValidity(value, rules) {
-        if(!rules) {
+        let isValid = true;
+        if (!rules) {
             return true;
         }
-        let isValid = true;
+        
         if (rules.required) {
             isValid = value.trim() !== '' && isValid;
         }
 
         if (rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid;
+            isValid = value.length >= rules.minLength && isValid
         }
 
-        if (rules.minLength) {
-            isValid = value.length <= rules.maxLength && isValid;
+        if (rules.maxLength) {
+            isValid = value.length <= rules.maxLength && isValid
         }
 
-        if (rules.email) {
-            isValid = value.includes('@');
+        if (rules.isEmail) {
+            const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+            isValid = pattern.test(value) && isValid
         }
+
+        if (rules.isNumeric) {
+            const pattern = /^\d+$/;
+            isValid = pattern.test(value) && isValid
+        }
+
         return isValid;
-    };
+    }
 
     inputChangedHandler = (event, controlName) => {
         const updatedControls = {
