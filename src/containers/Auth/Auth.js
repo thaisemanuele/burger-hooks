@@ -4,6 +4,7 @@ import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import classes from './Auth.module.css';
 import * as actions from '../../store/actions/index';
+import { isThisExpression } from '@babel/types';
 
 class Auth extends Component {
     state = {
@@ -38,7 +39,8 @@ class Auth extends Component {
                 errorMessage: "At least 6 characters",
                 touched: false
             },
-        }
+        },
+        isSignup: true
     };
 
     checkValidity(value, rules) {
@@ -87,7 +89,13 @@ class Auth extends Component {
 
     submitHandler = (event) => {
         event.preventDefault();
-        this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value);
+        this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value, this.state.isSignup);
+    };
+
+    switchAuthModeHandler = () => {
+        this.setState( prevState => {
+            return { isSignup: !prevState.isSignup}
+        });
     };
 
     render () {
@@ -114,10 +122,12 @@ class Auth extends Component {
             );
             return (
                 <div className={classes.Auth}>
+                    <h3>{this.state.isSignup ? "SIGN UP" : "SIGN IN"}</h3>
                     <form onSubmit={this.submitHandler}>
                         {form}
                         <Button btnType="Success">SUBMIT</Button>
                     </form>
+                    <Button btnType="Danger" clicked={this.switchAuthModeHandler} >SWITCH TO {this.state.isSignup ? "SIGN IN" : "SIGN UP"}</Button>
                 </div>
         );
     }
@@ -131,7 +141,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (email, password) => dispatch(actions.auth(email, password))
+        onAuth: (email, password, isSignup) => dispatch(actions.auth(email, password, isSignup))
     };
 };
 
