@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
+import Spinner from '../../components/UI/Spinner/Spinner';
 import classes from './Auth.module.css';
 import * as actions from '../../store/actions/index';
 import { isThisExpression } from '@babel/types';
@@ -106,7 +107,7 @@ class Auth extends Component {
                 config: this.state.controls[key]
             });
         }
-        const form = formElementsArray.map(formElement => (
+        let form = formElementsArray.map(formElement => (
             
             <Input 
                 key={formElement.id}
@@ -119,23 +120,31 @@ class Auth extends Component {
                 touched = {formElement.config.touched}
                 changed={(event) => this.inputChangedHandler(event, formElement.id)}/>
             )
-            );
-            return (
-                <div className={classes.Auth}>
-                    <h3>{this.state.isSignup ? "SIGN UP" : "SIGN IN"}</h3>
-                    <form onSubmit={this.submitHandler}>
-                        {form}
-                        <Button btnType="Success">SUBMIT</Button>
-                    </form>
-                    <Button btnType="Danger" clicked={this.switchAuthModeHandler} >SWITCH TO {this.state.isSignup ? "SIGN IN" : "SIGN UP"}</Button>
-                </div>
+        );
+        if (this.props.loading) {
+            form = <Spinner />;
+        }
+
+        const errorMessage = this.props.error ? <p>{this.props.error.message}</p> : null;
+
+        return (
+            <div className={classes.Auth}>
+                <h3>{this.state.isSignup ? "SIGN UP" : "SIGN IN"}</h3>
+                <form onSubmit={this.submitHandler}>
+                    {form}
+                    <Button btnType="Success">SUBMIT</Button>
+                </form>
+                {errorMessage}
+                <Button btnType="Danger" clicked={this.switchAuthModeHandler} >SWITCH TO {this.state.isSignup ? "SIGN IN" : "SIGN UP"}</Button>
+            </div>
         );
     }
 };
 
 const mapStateToProps = state => {
     return {
-        
+        loading: state.auth.loading,
+        error: state.auth.error
     }
 };
 
@@ -145,4 +154,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
