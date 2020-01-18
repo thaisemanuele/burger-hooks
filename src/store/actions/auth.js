@@ -51,7 +51,6 @@ export const auth = (email, password, isSignup=true) => {
         const url = isSignup ? config.FIREBASE_SIGNUP_URL : config.FIREBASE_SIGNIN_URL;
         axios.post(url, authData)
         .then ( response => {
-            console.log(response);
             const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
             localStorage.setItem('token', response.data.idToken);
             localStorage.setItem('expirationDate', expirationDate);
