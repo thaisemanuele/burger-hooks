@@ -16,7 +16,7 @@
 }
 
 /*phones*/
-@media (min-width: 375px) and (max-height:668px) {
+@media (min-width: 360px) and (max-height:668px) {
     .Burger {
         width: 280px;
         height: 255px;
