@@ -1,0 +1,24 @@
+.BurgerBuilder {
+    display: grid;
+    grid-template-columns: 7fr 3fr;
+    height: 100vh;
+}
+
+
+@media (max-width: 769px) {
+    .BurgerBuilder {
+        display: flex;
+        flex-flow: column;
+    }
+}
+
+@media only screen 
+  and (min-width: 1024px) 
+  and (max-width: 1024px) 
+  and (orientation: portrait) 
+  and (-webkit-min-device-pixel-ratio: 2)  {
+    .BurgerBuilder {
+        display: flex;
+        flex-flow: column;
+    }
+}

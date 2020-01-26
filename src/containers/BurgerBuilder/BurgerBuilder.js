@@ -10,6 +10,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner'
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
+import classes from './BurgerBuilder.module.css';
 import * as actions from '../../store/actions/index';
 
 export class BurgerBuilder extends Component {
@@ -65,7 +66,7 @@ export class BurgerBuilder extends Component {
         let burger = this.props.error ? <p>Ingredients could not be loaded!</p> : <Spinner />
         if (this.props.ings) {
             burger = (
-                <Aux>
+                <div className={classes.BurgerBuilder}>
                     <Burger ingredients={ this.props.ings } />
                     <BuildControls 
                         ingredientAdded={this.props.onIngredientAdded} 
@@ -75,7 +76,7 @@ export class BurgerBuilder extends Component {
                         ordered={this.purchaseHandler} 
                         isAuth={this.props.isAuthenticated}
                         price={this.props.price} />
-                </Aux>
+                </div>
             );
             orderSummary = <OrderSummary 
                 ingredients={this.props.ings}

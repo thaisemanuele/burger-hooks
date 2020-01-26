@@ -38,8 +38,8 @@
     .NavigationItem a:hover,
     .NavigationItem a:active,
     .NavigationItem a.active {
-        background-color: #8F5C2C;
-        border-bottom: 4px solid #40A4C8;
+        background-color: #B97B40;
+        border-bottom: 4px solid #f5da8d;
         color: white;
     }
         

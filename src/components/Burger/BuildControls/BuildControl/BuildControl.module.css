@@ -6,17 +6,14 @@
 }
 
 .BuildControl button {
-    display: block;
-    font: inherit;
     padding: 5px;
     margin: 0 5px;
-    width: 80px;
-    border: 1px solid #AA6817;
-    cursor: pointer;
-    outline: none;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #B97B40;
 }
 
-.BuildControl button:disabled {
+.MuiFab-root.Mui-disabled {
     background-color: #AC9980;
     border: 1px solid #7E7365;
     color: #ccc;
@@ -37,11 +34,6 @@
 
 .BuildControl .Less {  
     background-color: #D39952;
-    color: white;
-}
-
-.BuildControl .More {
-    background-color: #8F5E1E;
     color: white;
 }
 
