@@ -11,12 +11,14 @@ export default httpClient => {
         setError(err);
     });
 
+    const { request, response } = httpClient.interceptors;
+
     useEffect(() => {
         return () => {
-            httpClient.interceptors.request.eject(reqInterceptor);
-            httpClient.interceptors.response.eject(resInterceptor);
+            request.eject(reqInterceptor);
+            response.eject(resInterceptor);
         };
-    }, [reqInterceptor, resInterceptor]);
+    }, [request, response, reqInterceptor, resInterceptor]);
 
     const errorConfirmeHandler = () => {
         setError(null);
